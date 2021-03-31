@@ -17,10 +17,13 @@ export BROWSER=browser
 export GIT_CONFIG=$RCFG_DIR/gitconfig
 export STARDICT_DATA_DIR=$HOME/.config/
 export IFS=$'\n'
-export LC_ALL=en_US.utf8
+export LC_ALL=ru_RU.UTF-8
 export TERM=xterm-256color
 export TODO_DIR=$HOME/.config/todotxt
 export XDG_CONFIG_HOME="$HOME/.config"
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
+export CARGO_TARGET_DIR="$HOME/.cargo-target"
 
+eval $(opam env)
 eval `dircolors $RCFG_DIR/dircolors`
+source $HOME/.ghcup/env

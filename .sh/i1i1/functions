@@ -1,3 +1,8 @@
+toggl_month() {
+	toggl sum -s $(date +%m).01.$(date +%y) |
+		awk 'NR > 1 {print $2}' |
+		awk -F: '{a+=$1; b+=$2; c+=$3} END{b+=c/60; c/=60; a+=b/60; b/=60; printf("%d:%02d:%02d\n",a,b,c)}'
+}
 edit() {
     if which emacs &>/dev/null; then
         emacsclient -a "" -c $* &>/dev/null &
@@ -65,11 +70,11 @@ ssh() {
     }
     copy_config() {
         find ~/.sh/* -type f | \
-            xargs stat -c %Y | \
+            xargs stat -f %m | \
             awk 'BEGIN{a=0} a < $1{a=$1} END{print a}' | \
             read timestamp
         e ssh $1 find '~/.sh/*' -type f | \
-            e ssh $1 xargs stat -c %Y | \
+            e ssh $1 xargs stat -f %m | \
             awk 'BEGIN{a=0} a < $1{a=$1} END{print a}' | \
             read timestamp_ssh
 
@@ -132,6 +137,13 @@ _gcloud_create() {
 
 dcm_work() { _gcloud_create copper-tracker-270409 n1-standard-16 35 false i1i1; }
 
+jupyter() {
+    docker run \
+        -it \
+        -v $PWD:/home/jovyan/lab \
+        -p 127.0.0.1:8888:8888 \
+        jupyter/scipy-notebook jupyter "$@"
+}
 unalias_many() { for a in "$@"; do unalias "$a" 2>/dev/null; done; }
 
 unalias_many diff g grep ls l la ll "..." "...."

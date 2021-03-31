@@ -21,10 +21,13 @@
     di = diff
     fixup  = "!f() { git ci    --fixup $1; git rebase $1 ; }; f"
     fixupa = "!f() { git ci -a --fixup $1; git rebase $1 ; }; f"
-    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+    hist = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     last = log -1 HEAD
     pu = push
     st = status -sb
 
 [url "git+ssh://git@"]
     insteadOf = https://
+
+[init]
+    defaultBranch = master
